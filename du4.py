@@ -24,8 +24,8 @@ parser.add_argument('-o', '--output', default=None, help="Zadej název výstupn�
 parser.add_argument('-l', '--length', default=None, help="Zadej maximální vzdálenost segmentu")
 args = parser.parse_args()
 if args.file is not None and args.length is not None and args.output is not None: #provede se v případě, že byly určeny argumenty
-    namedFile = loadGeoJSON(args.file)
-    data = namedFile.read()
+    namedFile = loadGeoJSON(args.file) #načtení nového souboru
+    data = namedFile.read() #přečtení souboru
     namedFile.polylines = process(float(args.length), data) #samotný proces
     namedFile.fileName = args.output #definovní zápisu
     namedFile.write() #zápis do nového souboru
