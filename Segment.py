@@ -1,35 +1,32 @@
-from math import sqrt
+from Point import point
 import Polyline
-from Point import Point
+from math import sqrt
 
-class Line:
+class segment:
     def __init__(self, pointFirst=None, pointSecond=None):
         self.pointFirst = pointFirst
         self.pointSecond = pointSecond
-        self.PointBetween = None
-        self.length = None
+        self.PointBetween = 0
+        self.length = 0
 
     def calculateOneCoor(self, coorFirst, coorSecond):
         oneCoor = (coorFirst+coorSecond)/2
         return oneCoor
 
     def calculatePointBetween(self):
-        xAxisMid = self.calculateOneCoor(self.pointFirst.x, self.pointSecond.x)
-        yAxisMid = self.calculateOneCoor(self.pointFirst.y, self.pointSecond.y)
-        self.PointBetween = Point(xAxisMid, yAxisMid)
+        self.PointBetween = point(self.calculateOneCoor(self.pointFirst.x, self.pointSecond.x), self.calculateOneCoor(self.pointFirst.y, self.pointSecond.y))
 
     def distance(self):
         self.length = sqrt((self.pointFirst.x - self.pointSecond.x)**2 + (self.pointFirst.y - self.pointSecond.y)**2)
         return self.length
 
     def divide(self, max_length):
-        createPol = Polyline.Polyline()
-
-        if self.distance()>=max_length:
+        createPolyline = Polyline.polyline()
+        if self.distance() >= max_length:
             self.calculatePointBetween()
-            createPol.segmentAdd(Line(self.pointFirst, self.PointBetween)) #importováno z Polyline
-            createPol.segmentAdd(Line(self.PointBetween, self.pointSecond)) #importováno z Polyline
-            return createPol.divide_long_segments(max_length) #importováno z Polyline
+            createPolyline.segmentAdd(segment(self.pointFirst, self.PointBetween)) 
+            createPolyline.segmentAdd(segment(self.PointBetween, self.pointSecond)) 
+            return createPolyline.divide_long_segments(max_length) 
 
-        createPol.segmentAdd(self) #importováno z Polyline
-        return createPol
+        createPolyline.segmentAdd(self) 
+        return createPolyline
