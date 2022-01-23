@@ -35,3 +35,14 @@ class Polyline:
             polylineNew.polylineAdd(polylineTMP)
 
         return polylineNew
+
+    def get_object_for_json(self):
+        coordinates = []
+        was_first = False
+        for line in self.lines:
+            if not was_first:
+                coordinates.append([line.pointFirst.x, line.pointFirst.y])
+                was_first = True
+            coordinates.append([line.pointSecond.x, line.pointSecond.y])
+        self.data["geometry"]["coordinates"] = coordinates
+        return self.data
