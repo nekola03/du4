@@ -7,8 +7,6 @@ class segment:
     def __init__(self, pointFirst=None, pointSecond=None):
         self.pointFirst = pointFirst
         self.pointSecond = pointSecond
-        self.PointBetween = 0
-        self.length = 0
     
     #VÝPOČET SEGMENTU NA ZÁKLADĚ SOUŘADNIC 2 BODŮ
     def calculateOneCoor(self, coorFirst, coorSecond): #výpočet souřadnice na jedné z os
