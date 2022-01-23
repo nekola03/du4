@@ -17,7 +17,7 @@ class polyline:
             if lineTMP.pointFirst is not None: #vytvoření, resp. zprocesování segmentu na základě podmínky
                 lineTMP.pointSecond = pointSpecific
                 self.segmentAdd(lineTMP)
-                lineTMP = Segment.segment(pointSpecific)
+                lineTMP = Segment.segment(pointSpecific) #tvorba segmentů v jednotlivé polyline
             elif lineTMP.pointFirst is None: 
                 lineTMP.pointFirst = pointSpecific
 
