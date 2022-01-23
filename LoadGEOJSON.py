@@ -20,3 +20,18 @@ class File:
         except FileNotFoundError:
             print(f"Soubor {self.fileName} nebyl nalezen")
             exit()
+
+    def write(self):
+        try:
+            with open(self.fileName, "w", encoding="UTF-8") as writefile:
+                parties = []
+                for polyline in self.newPolylines:
+                    parties.append(polyline.get_object_for_json())
+                self.dataJSON["features"] = parties
+                json.dump(self.dataJSON, writefile)
+        except PermissionError:
+            print(f"CHYBA: Nemam pristup k {self.fileName}. Program skonci.")
+            exit()
+        except:
+            print(f"CHYBA: Nemuzu ulozit soubor.")
+            exit()
