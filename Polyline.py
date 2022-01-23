@@ -1,48 +1,50 @@
-from Point import Point
+from Point import point
 import Segment
 
-class Polyline:
+#TŘÍDA PRO KONSTRUKCI POLYLINE
+class polyline:
     def __init__(self, data=None):
         self.lines = []
         self.data = data
-        if data is not None:
+        if data is not None: #pokud existují data provedou se následující metody
             self.process()
 
+    #ZPROCESOVÁNÍ DAT
     def process(self):
-        lineTMP = Segment.Line()
-        for pointFromData in self.data["geometry"]["coordinates"]:
-            pointSpecific = Point(pointFromData[0], pointFromData[1])
-            if lineTMP.pointFirst is not None:
+        lineTMP = Segment.segment()
+        for pointFromData in self.data["geometry"]["coordinates"]: #cyklus procházení konkrétních atribudů a jejich výběr
+            pointSpecific = point(pointFromData[0], pointFromData[1])
+            if lineTMP.pointFirst is not None: #vytvoření, resp. zprocesování segmentu na základě podmínky
                 lineTMP.pointSecond = pointSpecific
                 self.segmentAdd(lineTMP)
-                lineTMP = Segment.Line(pointSpecific)
+                lineTMP = Segment.segment(pointSpecific)
             elif lineTMP.pointFirst is None: 
                 lineTMP.pointFirst = pointSpecific
 
-    def polylineAdd(self, polyline):
-        for line in polyline.lines:
-            self.segmentAdd(line)
+    #PŘÍPRAVA NOVÝCH DAT PRO ZÁPIS
+    def attributteNewJSON(self):
+        coords = []
+        rightPos = 1
+        for segment in self.lines: #zápis do do atrbutu na základě podmínky pozice
+            if not rightPos:
+                coords.append([segment.pointFirst.x, segment.pointFirst.y])
+                rightPos = 0
+            coords.append([segment.pointSecond.x, segment.pointSecond.y])
+        self.data["geometry"]["coordinates"] = coords #vložení nových atributů do kódu
+        return self.data
+
+    #PŘIDÁNÍ POLYLINE A SEGMENTU A ROZDĚLENÍ DELŠÍHO SEGMENTU
+    def polylineAdd(self, moreSegment):  #přidání segmentu na základě následující funkce
+        for segment in moreSegment.lines:
+            self.segmentAdd(segment)
     
-    def segmentAdd(self, segment):
+    def segmentAdd(self, segment): #přídání segmentu do lines
         self.lines.append(segment)
 
-    def divide_long_segments(self, max_length):
-        polylineNew = Polyline()
+    def divide_long_segments(self, max_length): #rozdělení douhého segmentu
+        polylineNew = polyline()
         polylineNew.data = self.data
-
-        for line in self.lines:
-            polylineTMP = line.divide(max_length)
+        for line in self.lines: #postupné procházení segmentů a jejich výstup v nových polylines
+            polylineTMP = line.divide(max_length) #dělení na základě metody v třídě segment
             polylineNew.polylineAdd(polylineTMP)
-
         return polylineNew
-
-    def get_object_for_json(self):
-        coordinates = []
-        was_first = False
-        for line in self.lines:
-            if not was_first:
-                coordinates.append([line.pointFirst.x, line.pointFirst.y])
-                was_first = True
-            coordinates.append([line.pointSecond.x, line.pointSecond.y])
-        self.data["geometry"]["coordinates"] = coordinates
-        return self.data
