@@ -1,8 +1,8 @@
-from Point import point
+from Point import Point
 import Segment
 
 #TŘÍDA PRO KONSTRUKCI POLYLINE
-class polyline:
+class Polyline:
     def __init__(self, data=None):
         self.lines = []
         self.data = data
@@ -11,13 +11,13 @@ class polyline:
 
     #ZPROCESOVÁNÍ DAT
     def process(self):
-        lineTMP = Segment.segment()
+        lineTMP = Segment.Segment()
         for pointFromData in self.data["geometry"]["coordinates"]: #cyklus procházení konkrétních atribudů a jejich výběr
-            pointSpecific = point(pointFromData[0], pointFromData[1])
+            pointSpecific = Point(pointFromData[0], pointFromData[1])
             if lineTMP.pointFirst is not None: #vytvoření, resp. zprocesování segmentu na základě podmínky
                 lineTMP.pointSecond = pointSpecific
                 self.segmentAdd(lineTMP)
-                lineTMP = Segment.segment(pointSpecific) #tvorba segmentů v jednotlivé polyline
+                lineTMP = Segment.Segment(pointSpecific) #tvorba segmentů v jednotlivé polyline
             elif lineTMP.pointFirst is None: 
                 lineTMP.pointFirst = pointSpecific
 
@@ -42,7 +42,7 @@ class polyline:
         self.lines.append(segment)
 
     def divide_long_segments(self, max_length): #rozdělení douhého segmentu
-        polylineNew = polyline()
+        polylineNew = Polyline()
         polylineNew.data = self.data
         for line in self.lines: #postupné procházení segmentů a jejich výstup v nových polylines
             polylineTMP = line.divide(max_length) #dělení na základě metody v třídě segment
