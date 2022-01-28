@@ -1,9 +1,9 @@
-from Point import point
+from Point import Point
 import Polyline
 from math import sqrt
 
 #VYTVOŘENÍ TŘÍDY
-class segment:
+class Segment:
     def __init__(self, pointFirst=None, pointSecond=None):
         self.pointFirst = pointFirst
         self.pointSecond = pointSecond
@@ -14,7 +14,7 @@ class segment:
         return oneCoor
     
     def calculatePointBetween(self): #výpočet souřadnice na jedné ose s přiřazením souřadnice
-        self.PointBetween = point(self.calculateOneCoor(self.pointFirst.x, self.pointSecond.x), self.calculateOneCoor(self.pointFirst.y, self.pointSecond.y))
+        self.PointBetween = Point(self.calculateOneCoor(self.pointFirst.x, self.pointSecond.x), self.calculateOneCoor(self.pointFirst.y, self.pointSecond.y))
 
     def distance(self): #výpočet vzdálenosti segmentu pythagorovou větou
         self.length = sqrt((self.pointFirst.x - self.pointSecond.x)**2 + (self.pointFirst.y - self.pointSecond.y)**2)
@@ -22,11 +22,11 @@ class segment:
 
     #ROZDĚLENÍ SOUŘASNÉHO SEGMENTU
     def divide(self, max_length):
-        createPolyline = Polyline.polyline() #třída v proměnné
+        createPolyline = Polyline.Polyline() #třída v proměnné
         if self.distance() >= max_length: #vytvoření třídy pokud je segment menší než maximální vzdálenost
             self.calculatePointBetween()
-            createPolyline.segmentAdd(segment(self.pointFirst, self.PointBetween)) 
-            createPolyline.segmentAdd(segment(self.PointBetween, self.pointSecond)) 
+            createPolyline.segmentAdd(Segment(self.pointFirst, self.PointBetween)) 
+            createPolyline.segmentAdd(Segment(self.PointBetween, self.pointSecond)) 
             return createPolyline.divide_long_segments(max_length) #navrácení vytvořeného segmentu
         createPolyline.segmentAdd(self) 
         return createPolyline #vytvoření polyline ze všech segmentů
