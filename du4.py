@@ -1,6 +1,6 @@
 import argparse
 from LoadGEOJSON import GeoJSON
-from Polyline import polyline
+from Polyline import Polyline
 
 #ZPROCESOVÁNÍ CELÉHO PŘÍKLADU
 def process(max_length, fileName):
@@ -8,7 +8,7 @@ def process(max_length, fileName):
     for data in fileName:
         try:
             if data["geometry"]["type"] == "LineString": #následující části kódu se probedou, pokud se jedná o datový typ linestring
-                polylineNew = polyline(data)
+                polylineNew = Polyline(data)
                 allPolylines.append(polylineNew.divide_long_segments(max_length))
             elif data["geometry"]["type"] != "LineString":
                 print("Chybná data:", data["properties"]["OBJECTID"])
