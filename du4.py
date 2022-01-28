@@ -19,16 +19,13 @@ def process(max_length, fileName):
 
 #DEFINOVÁNÍ PARAMETRŮ PRO VOLÁNÍ PROGRAMU
 parser = argparse.ArgumentParser(description="Zadej povinné parametry")
-parser.add_argument('-f', '--file', default=None, help="Zadej název vstupního souboru s příponou GEOJSON či JSON")
-parser.add_argument('-o', '--output', default=None, help="Zadej název výstupního souboru s příponou GEOJSON či JSON")
-parser.add_argument('-l', '--length', default=None, help="Zadej maximální vzdálenost segmentu")
+parser.add_argument('-f', '--file', default=None, required=True, help="Zadej název vstupního souboru s příponou GEOJSON či JSON")
+parser.add_argument('-o', '--output', default=None, required=True, help="Zadej název výstupního souboru s příponou GEOJSON či JSON")
+parser.add_argument('-l', '--length', default=None, required=True, type=float, help="Zadej maximální vzdálenost segmentu")
 args = parser.parse_args()
-if args.file is not None and args.length is not None and args.output is not None: #provede se v případě, že byly určeny argumenty
-    namedFile = loadGeoJSON(args.file) #načtení nového souboru
-    data = namedFile.read() #přečtení souboru
-    namedFile.polylines = process(float(args.length), data) #samotný proces
-    namedFile.fileName = args.output #definovní zápisu
-    namedFile.write() #zápis do nového souboru
-else:
-    print("Chybně zadané parametry")
-    exit()
+
+namedFile = loadGeoJSON(args.file) #načtení nového souboru
+data = namedFile.read() #přečtení souboru
+namedFile.polylines = process(args.length, data) #samotný proces
+namedFile.fileName = args.output #definovní zápisu
+namedFile.write() #zápis do nového souboru
