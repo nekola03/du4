@@ -1,5 +1,5 @@
 import argparse
-from LoadGEOJSON import loadGeoJSON
+from LoadGEOJSON import GeoJSON
 from Polyline import polyline
 
 #ZPROCESOVÁNÍ CELÉHO PŘÍKLADU
@@ -24,7 +24,7 @@ parser.add_argument('-o', '--output', default=None, required=True, help="Zadej n
 parser.add_argument('-l', '--length', default=None, required=True, type=float, help="Zadej maximální vzdálenost segmentu")
 args = parser.parse_args()
 
-namedFile = loadGeoJSON(args.file) #načtení nového souboru
+namedFile = GeoJSON(args.file) #načtení nového souboru
 data = namedFile.read() #přečtení souboru
 namedFile.polylines = process(args.length, data) #samotný proces
 namedFile.fileName = args.output #definovní zápisu
