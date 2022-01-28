@@ -26,12 +26,12 @@ class GeoJSON:
     #ZÁPIS NOVÝCH DAT DO NOVÉHO SOUBORU
     def write(self):
         try:
-            with open(self.fileName, "w", encoding="UTF-8") as loadedFile:
+            with open(self.fileName, "w", encoding="UTF-8") as writedFile:
                 newPolylines = [] #definice prázdné množiny, ve které budou nové souřadnice
                 for polyline in self.polylines: #postupné zapisování polylines do dílčí proměnné
                     newPolylines.append(polyline.attributteNewJSON())
                 self.geoJSONData["features"] = newPolylines
-                json.dump(self.geoJSONData, loadedFile) #samotné vytvoření souboru
+                json.dump(self.geoJSONData, writedFile) #samotné vytvoření souboru
         except PermissionError: 
             print(f"Nemáš povolený zápis do souboru")
             exit()
