@@ -14,9 +14,7 @@ Jedná se o třídu, pomocí metod `read` zpřístupní data programu z vstupní
 Jedná se o základní třídu, která inicializuje základní objekt formálu Linestring, kterým je Bod. Bod Určuje segment a vzdálenost mezi nimi jeho délku. Bod je určen parametry `x` a `y`.
 
 ## Segment
-Třída segment určuje objekt, který je úsečkou mezi dvěma body.
+Třída segment určuje objekt, který je úsečkou mezi dvěma body. Tato třída obsahuje metody, které slouží pro určení vzdálenosti mezi 2 body. Vzdálenost je určena Pythagorovou větou. Dále je na základě výpočtu úhlopříčky čtyřúhelníku vypočten bod, dělící segment v jeho středu. Pro tento účel bylo vyhotoveno několik metod, které jsou použity v případě, že maximální délka segmentu je větší než uživatelem zadaná mezní hodnota. Tato čáse je definováno v metodě `divide`. V případě splnění této podmínky jsou zavolány metody třídy `Polyline`, která bude popsána později. Zjednodušeně se vytvoří vždy dva nové segmenty mezi jedním počátečním bodem a středním bodem. V případě že je segment stále delší než zadaná hodnota, znovu se segment rozdělí. Pomocí metody `segmentAdd` třídy definující lomenou linii se zapíše mezi ostatní segmenty. Metoda divide je dále volána ve třídě polyline na každý segment jednotlivých lomených linií.
 
 ## Polyline
-Třída, která
-
-
+Jedná se o třídu, která je použita ve spustitelném souboru `du4.py`. Jak již bylo řečeno, obsahuje metodu pro vytvoření nového atributu sloužící pro následný zápis do nového souboru. Stejně jako v případě třídy `Segment` je definována metoda pro vytvoření nové lomenné čáry na základě segmentů. Jedná se o metodu `divide_long_segments`, která využívá metodu divide pro rozdělení segmentu. V této části je volána metoda třídy `Polyline` s názvem `polylineAdd` v cyklu vrací jednotlivé vzniklé segmenty pomocí funkce `segmentAdd`.
