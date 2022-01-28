@@ -1,7 +1,7 @@
 import json
 
 #TŘÍDA UMOŽŇUJÍCÍ ČTENÍ SOUBORU A JEHO ZÁPIS
-class loadGeoJSON:
+class GeoJSON:
     def __init__(self, fileName):
         self.fileName=fileName
         self.polylines = []
