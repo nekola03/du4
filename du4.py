@@ -12,7 +12,7 @@ def process(max_length, fileName):
                 allPolylines.append(polylineNew.divide_long_segments(max_length))
             elif data["geometry"]["type"] != "LineString":
                 print("Chybná data:", data["properties"]["OBJECTID"])
-        except: 
+        except KeyError: 
             print("Chybí data")
             exit()
     return allPolylines
@@ -24,8 +24,9 @@ parser.add_argument('-o', '--output', default=None, required=True, help="Zadej n
 parser.add_argument('-l', '--length', default=None, required=True, type=float, help="Zadej maximální vzdálenost segmentu")
 args = parser.parse_args()
 
-namedFile = GeoJSON(args.file) #načtení nového souboru
+namedFile = GeoJSON(args.file) #načtení nového souboru (čtení)
 data = namedFile.read() #přečtení souboru
-namedFile.polylines = process(args.length, data) #samotný proces
-namedFile.fileName = args.output #definovní zápisu
-namedFile.write() #zápis do nového souboru
+namedFileW = namedFile #rozdílné pojmenování souboru
+namedFileW.polylines = process(args.length, data) #samotný proces
+namedFileW.fileName = args.output #definovní zápisu
+namedFileW.write() #zápis do nového souboru
